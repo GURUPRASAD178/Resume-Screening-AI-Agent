@@ -17,6 +17,7 @@ Upload PDF or DOCX resumes, configure the scoring model, compare candidates, man
 - **Candidate profile extraction** for name, email, phone, education, experience, and skills
 - **Side-by-side comparisons** with interactive Plotly visualizations
 - **Candidate-specific interview prompts** based on matched skills and gaps
+- **AI agent** for evidence-grounded recruiter assistance with confirmation-gated record updates
 - **Local recruitment pipeline** with statuses and recruiter notes
 - **Consolidated exports** as PDF, Excel, and CSV
 - **Human oversight first**: scores support decisions but do not replace recruiter judgment
@@ -123,6 +124,29 @@ py -m streamlit run app.py
 ```
 
 Open the local URL shown by Streamlit, usually `http://localhost:8501`.
+
+### Optional AI Agent
+
+The **AI Agent** tab uses an OpenAI-compatible Chat Completions endpoint with tool-calling support. Configure these environment variables before starting Streamlit:
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `OPENAI_API_KEY` | API key for the configured provider (required) | None |
+| `OPENAI_BASE_URL` | Provider API base URL | `https://api.openai.com/v1` |
+| `OPENAI_MODEL` | Provider model name; it must support tool calling | `gpt-4o-mini` |
+
+PowerShell example for the current terminal session:
+
+```powershell
+$secureKey = Read-Host "AI provider API key" -AsSecureString
+$env:OPENAI_API_KEY = [System.Net.NetworkCredential]::new("", $secureKey).Password
+Remove-Variable secureKey
+$env:OPENAI_BASE_URL = "https://api.openai.com/v1"
+$env:OPENAI_MODEL = "gpt-4o-mini"
+py -m streamlit run app.py
+```
+
+In the AI Agent tab, enable the data-sharing consent checkbox before sending a prompt. The provider may receive the prompt, job description, candidate names, screening summaries, and only the resume excerpts requested by the agent. Review the provider's data-handling terms before use. The agent cannot set a candidate to **Not selected**; any other proposed status or recruiter-note change must be explicitly confirmed in the interface before it is saved. Candidate decisions remain the recruiter's responsibility.
 
 ---
 
