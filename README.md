@@ -161,6 +161,4 @@ Candidate information is saved locally in `screening.db`, including names, conta
 
 ---
 
-## License
 
-A license has not been specified for this repository yet. If you plan to distribute or reuse this project, add a `LICENSE` file and update the license badge above.
